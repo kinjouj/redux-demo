@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 
-class Echo extends React.Component {
+class Echo extends Component {
 
   render() {
     let { text } = this.props;
@@ -12,10 +12,17 @@ class Echo extends React.Component {
       </div>
     );
   }
+
 }
 
+/*
 function mapStateToProps(state) {
   return state;
 }
+*/
 
-export default connect(mapStateToProps)(Echo);
+export default connect(
+  (state) => {
+    return state;
+  }
+)(Echo);
