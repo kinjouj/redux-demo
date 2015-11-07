@@ -1,3 +1,5 @@
+const ACTION_ECHO = "echo";
+
 export function changeEcho(text) {
-  return { type: "echo", text };
+  return { type: ACTION_ECHO, text };
 }

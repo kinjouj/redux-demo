@@ -9,7 +9,7 @@ class EchoInput extends Component {
 
   render() {
     return (
-      <input type="text" ref="input" onChange={(e) => this.onChange(e)}/>
+      <input type="text" ref="input" onChange={(e) => this.onChange(e)} />
     );
   }
 

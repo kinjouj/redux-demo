@@ -3,12 +3,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import EchoInput from "./EchoInput";
 import Echo from "./Echo";
-import * as EchoAction from "../actions";
+import * as EchoActions from "../actions";
 
 class App extends Component {
 
   static propTypes = {
-    echo: PropTypes.object.isRequired
+    echo: PropTypes.object.isRequired,
+    reducers: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired
   };
 
   render() {
@@ -16,7 +18,7 @@ class App extends Component {
     console.log("reducers", reducers);
 
     return (
-      <div>
+      <div className="page-content">
         <EchoInput onChange={(text) => this.changeText(text)} />
         <Echo text={echo.text} />
       </div>
@@ -34,14 +36,11 @@ export default connect(
     let reducers = state.rootReducer;
     let echo = reducers[0] || {};
 
-    return {
-      reducers,
-      echo
-    };
+    return { echo, reducers };
   },
   (dispatch) => {
     return {
-      actions: bindActionCreators(EchoAction, dispatch)
+      actions: bindActionCreators(EchoActions, dispatch)
     }
   }
 )(App);
