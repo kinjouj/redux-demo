@@ -1,7 +1,14 @@
-function rootReducer(state = {}, action) {
+import { combineReducers } from "redux";
+
+function rootReducer(state = [], action) {
+  console.dir(action);
+
   switch (action.type) {
     case "echo":
-      return { text: action.text };
+      return [
+        { text: action.text },
+        ...state.slice(0, 1)
+      ];
 
     default:
       return state;
@@ -9,4 +16,4 @@ function rootReducer(state = {}, action) {
   }
 }
 
-export default rootReducer;
+export default combineReducers({ rootReducer });

@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div>
         <input type="text" ref="input" onChange={(e) => this.changeText(e)} />
-        <Echo />
+        <Echo text={this.props.echo.text} />
       </div>
     );
   }
@@ -23,7 +23,9 @@ class App extends Component {
 
 export default connect(
   (state) => {
-    return {};
+    return {
+      echo: state.rootReducer[0] || {}
+    };
   },
   (dispatch) => {
     return {

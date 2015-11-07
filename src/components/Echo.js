@@ -15,14 +15,4 @@ class Echo extends Component {
 
 }
 
-/*
-function mapStateToProps(state) {
-  return state;
-}
-*/
-
-export default connect(
-  (state) => {
-    return state;
-  }
-)(Echo);
+export default connect()(Echo);
