@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
 
 function rootReducer(state = [], action) {
-  console.dir(action);
-
   switch (action.type) {
     case "echo":
       return [
