@@ -5,14 +5,14 @@ import {
   ACTION_RECV
 } from "../actions";
 
-function rootReducer(state = { isFetching: false, todos: [] }, action) {  
+function rootReducer(state = { isFetching: false, todos: [] }, action) {
   switch (action.type) {
     case ACTION_ADD_TODO:
       return Object.assign({}, state, { isFetching: true });
 
     case ACTION_ADD_TODO_COMPLETE:
       let todos = [...state.todos, ...action.todos];
-      return Object.assign({}, state, { todos: todos });
+      return Object.assign({}, state, { isFetching: false, todos: todos });
 
     case ACTION_FETCH:
       return Object.assign({}, state, { isFetching: true });

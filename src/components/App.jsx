@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import TodoInput from "./TodoInput.jsx";
-import TodoList from "./TodoList.jsx";
+import TodoInput from "./TodoInput";
+import TodoList from "./TodoList";
 import * as TodoActions from "../actions";
 
 class App extends Component {

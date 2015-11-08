@@ -8,7 +8,7 @@ export const ACTION_RECV = "recv";
 const DB_NAME = "redux-todo"
 const DB_VERSION = 1;
 
-function open_db() {
+function openDB() {
   return new Promise((resolve) => {
     db.open({
       server: DB_NAME,
@@ -31,11 +31,13 @@ function createTodo(text) {
   return (dispatch) => {
     dispatch({ type: ACTION_ADD_TODO });
     return new Promise((resolve) => {
-      open_db().then((server) => {
-        server.todo.add({ body: text }).then((entries) => {
+      (async () => {
+        let server = await openDB();
+        let entries = await server.todo.add({ body: text });
+        setTimeout(() => {
           dispatch({ type: ACTION_ADD_TODO_COMPLETE, todos: entries });
-        });
-      });
+        }, 2000);
+      })();
     });
   }
 }
@@ -44,14 +46,13 @@ function getTodos() {
   return (dispatch) => {
     dispatch({ type: ACTION_FETCH });
     return new Promise((resolve) => {
-      open_db().then((server) => {
-        (async () => {
-          let entries = await server.todo.query().all().execute();
-          setTimeout(() => {
-            dispatch({ type: ACTION_RECV, todos: entries });
-          }, 3000);
-        })();
-      });
+      (async () => {
+        let server = await openDB();
+        let entries = await server.todo.query().all().execute();
+        setTimeout(() => {
+          dispatch({ type: ACTION_RECV, todos: entries });
+        }, 2000);
+      })();
     });
   };
 }
