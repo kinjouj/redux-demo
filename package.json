@@ -2,7 +2,7 @@
   "name": "redux-example-echo",
   "version": "1.0.0",
   "scripts": {
-    "build": "browserify src/app.js -o public/bundle.js"
+    "build": "browserify src/app.jsx -o public/bundle.js"
   },
   "dependencies": {
     "db.js": "^0.10.2",
@@ -16,7 +16,8 @@
   "browserify": {
     "transform": [
       "babelify"
-    ]
+    ],
+    "extensions": ["js", "jsx"]
   },
   "devDependencies": {
     "babel-polyfill": "^6.0.16",

@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from 'react-redux';
-import App from "./components/App";
-import rootStore from "./store";
+import App from "./components/App.jsx";
+import store from "./store";
 
 require("babel-polyfill");
 
 ReactDOM.render(
-  <Provider store={rootStore}>
+  <Provider store={store}>
     <App />
   </Provider>,
   document.querySelector("#app")

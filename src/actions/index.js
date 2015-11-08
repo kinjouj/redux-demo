@@ -29,6 +29,7 @@ function open_db() {
 
 function createTodo(text) {
   return (dispatch) => {
+    dispatch({ type: ACTION_ADD_TODO });
     return new Promise((resolve) => {
       open_db().then((server) => {
         server.todo.add({ body: text }).then((entries) => {
