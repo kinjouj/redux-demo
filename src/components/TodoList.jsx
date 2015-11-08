@@ -1,4 +1,5 @@
 import React, { Comopnent } from "react";
+import { connect } from "react-redux";
 
 class TodoList extends Component {
   render() {
@@ -14,4 +15,4 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList;
+export default connect()(TodoList);

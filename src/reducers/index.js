@@ -1,15 +1,19 @@
+import {
+  ACTION_ADD_TODO_COMPLETE,
+  ACTION_FETCH,
+  ACTION_RECV
+} from "../actions";
+
 function rootReducer(state = { isFetching: false, todos: [] }, action) {  
   switch (action.type) {
-    case "add_todo_complete":
+    case ACTION_ADD_TODO_COMPLETE:
       let todos = [...state.todos, ...action.todos];
-      console.log('added todo', todos);
       return Object.assign({}, state, { todos: todos });
 
-    case "fetch":
+    case ACTION_FETCH:
       return Object.assign({}, state, { isFetching: true });
 
-    case "recv":
-      console.log("recv todos", action);
+    case ACTION_RECV:
       return Object.assign({}, state, { isFetching: false, todos: action.todos });
 
     default:
