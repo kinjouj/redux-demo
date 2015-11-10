@@ -15,16 +15,9 @@ class TodoInput extends Component {
   }
 
   render() {
-    var inputLink = {
-      value: this.state.text,
-      requestChange: (text) => {
-        this.setState({ text: text });
-      }
-    };
-
     return (
       <div>
-        <input type="text" ref="input" valueLink={inputLink} />
+        <input type="text" valueLink={this.linkState("text")} />
         <button onClick={(e) => this.handleClick(e)}>add</button>
       </div>
     );
@@ -36,3 +29,4 @@ class TodoInput extends Component {
 }
 
 export default connect()(TodoInput);
+//export default TodoInput;
