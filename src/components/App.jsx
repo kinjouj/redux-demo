@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import TodoInput from "./TodoInput";
 import TodoList from "./TodoList";
@@ -25,8 +24,8 @@ class App extends Component {
   }
 }
 
-export default connect(
-  (state) => {
-    return state;
-  }
-)(App);
+function mapStateToProps(state) {
+  return state;
+}
+
+export default connect(mapStateToProps)(App);

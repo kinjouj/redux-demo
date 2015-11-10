@@ -1,5 +1,7 @@
 import db from "db.js";
 
+require("babel-polyfill");
+
 export const ACTION_ADD_TODO = "add_todo";
 export const ACTION_ADD_TODO_COMPLETE = "add_todo_complete";
 export const ACTION_FETCH = "fetch";
@@ -21,7 +23,7 @@ function openDB() {
           }
         }
       }
-    }) .then((server) => {
+    }).then((server) => {
       resolve(server);
     });
   });
@@ -36,7 +38,7 @@ function createTodo(text) {
         let entries = await server.todo.add({ body: text });
         setTimeout(() => {
           dispatch({ type: ACTION_ADD_TODO_COMPLETE, todos: entries });
-        }, 2000);
+        }, 1000);
       })();
     });
   }

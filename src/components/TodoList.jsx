@@ -2,16 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 class TodoList extends Component {
+
   render() {
-    let { todos } = this.props;
-    
     return (
       <div>
-        {todos.map((todo, i) =>
-        <div key={i}>{todo.body}</div>
+        {this.props.todos.map((todo,) =>
+        <div className="todo" key={todo.id} ref="todo" >
+          <span className="todo-text">{todo.body}</span>
+          <a onClick={(e) => this.handleDeleteClick(this)}>削除</a>
+        </div>
         )}
       </div>
     );
+  }
+
+  handleDeleteClick(e) {
+    console.dir(e);
   }
 }
 
