@@ -1,4 +1,6 @@
+/*eslint-disable no-unused-vars*/
 import React, { Component, PropTypes} from "react";
+/*eslint-enable no-unused-vars*/
 import { connect } from "react-redux";
 
 class TodoItem extends Component {
@@ -13,7 +15,7 @@ class TodoItem extends Component {
     return (
       <div className="todo">
         <span className="todo-body">{todo.body}</span>
-        <a onClick={(e) => this.handleDeleteClick(this)}>削除</a>
+        <a onClick={() => this.handleDeleteClick(this)}>削除</a>
       </div>
     );
   }

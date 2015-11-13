@@ -13,9 +13,15 @@ function rootReducer(state = { isFetching: false, todos: [] }, action) {
     case ACTION_ADD_TODO_COMPLETE:
       let { "todos": stateTodos = [] } = state;
       let { "todos": actionTodos = [] } = action;
-      var todos = [ ...stateTodos, ...actionTodos ];
 
-      return Object.assign({}, state, { isFetching: false, todos: todos });
+      return Object.assign(
+        {},
+        state,
+        {
+          isFetching: false,
+          todos: [ ...stateTodos, ...actionTodos ]
+        }
+      );
 
     case ACTION_FETCH:
       return Object.assign({}, state, { isFetching: true });

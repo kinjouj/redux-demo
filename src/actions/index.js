@@ -8,7 +8,7 @@ import {
 
 require("babel-polyfill");
 
-const DB_NAME = "redux-todo"
+const DB_NAME = "redux-todo";
 
 function openDB() {
   return new Promise((resolve) => {
@@ -32,7 +32,7 @@ function openDB() {
 function createTodo(text) {
   return (dispatch) => {
     dispatch({ type: ACTION_ADD_TODO });
-    return new Promise((resolve) => {
+    return new Promise(() => {
       (async () => {
         let server = await openDB();
         let entries = await server.todo.add({ body: text });
@@ -41,13 +41,13 @@ function createTodo(text) {
         }, 1000);
       })();
     });
-  }
+  };
 }
 
 function getTodos() {
   return (dispatch) => {
     dispatch({ type: ACTION_FETCH });
-    return new Promise((resolve) => {
+    return new Promise(() => {
       (async () => {
         let server = await openDB();
         let entries = await server.todo.query().all().execute();

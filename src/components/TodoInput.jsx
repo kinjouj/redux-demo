@@ -1,4 +1,6 @@
+/*eslint-disable no-unused-vars*/
 import React, { Component, PropTypes } from "react";
+/*eslint-enable no-unsed-vars*/
 import LinkedStateMixin from "react-addons-linked-state-mixin";
 import { connect } from "react-redux";
 
