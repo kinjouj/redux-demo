@@ -6,7 +6,7 @@ class TodoInput extends Component {
 
   static propTypes = {
     onAddTodo: PropTypes.func.isRequired
-  };
+  }
 
   constructor(props) {
     super(props);
@@ -28,5 +28,11 @@ class TodoInput extends Component {
   }
 }
 
-export default connect()(TodoInput);
-//export default TodoInput;
+export default connect(
+  (state) => {
+    return state;
+  },
+  null,
+  null,
+  { withRef: true }
+)(TodoInput);

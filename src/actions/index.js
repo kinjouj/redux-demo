@@ -1,20 +1,20 @@
 import db from "db.js";
+import {
+  ACTION_ADD_TODO,
+  ACTION_ADD_TODO_COMPLETE,
+  ACTION_FETCH,
+  ACTION_RECV
+} from "../constants";
 
 require("babel-polyfill");
 
-export const ACTION_ADD_TODO = "add_todo";
-export const ACTION_ADD_TODO_COMPLETE = "add_todo_complete";
-export const ACTION_FETCH = "fetch";
-export const ACTION_RECV = "recv";
-
 const DB_NAME = "redux-todo"
-const DB_VERSION = 1;
 
 function openDB() {
   return new Promise((resolve) => {
     db.open({
       server: DB_NAME,
-      version: DB_VERSION,
+      version: 1,
       schema: {
         todo: {
           key: { keyPath: "id", autoIncrement: true },

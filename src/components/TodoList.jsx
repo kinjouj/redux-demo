@@ -1,23 +1,23 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
+import TodoItem from "./TodoItem";
 
 class TodoList extends Component {
 
+  static propTypes = {
+    todos: PropTypes.array.isRequired
+  }
+
   render() {
+    let { todos } = this.props;
+
     return (
       <div>
-        {this.props.todos.map((todo,) =>
-        <div className="todo" key={todo.id} ref="todo" >
-          <span className="todo-text">{todo.body}</span>
-          <a onClick={(e) => this.handleDeleteClick(this)}>削除</a>
-        </div>
+        {todos.map((todo) =>
+        <TodoItem key={todo.id} todo={todo} />
         )}
       </div>
     );
-  }
-
-  handleDeleteClick(e) {
-    console.dir(e);
   }
 }
 

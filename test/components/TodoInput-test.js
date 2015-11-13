@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 describe("TodoInput", () => {
   it("render", (done) => {
     var TodoInput = require("../../src/components/TodoInput").default;
-    var store = createStore(() => {});
+    let store = createStore(() => { return {} });
 
     let onAddTodo = (text) => {
       expect(text).toEqual("hoge");
@@ -16,13 +16,20 @@ describe("TodoInput", () => {
     };
 
     let component = ReactTestUtils.renderIntoDocument(
-      <TodoInput store={store} onAddTodo={onAddTodo} />
+      <Provider store={store}>
+        <TodoInput onAddTodo={onAddTodo} />
+      </Provider>
     );
 
-    let input = ReactTestUtils.findRenderedDOMComponentWithTag(component, "input");
+    let todo = ReactTestUtils.findRenderedComponentWithType(component, TodoInput);
+
+    let input = ReactTestUtils.findRenderedDOMComponentWithTag(todo, "input");
     ReactTestUtils.Simulate.change(input, { target: { value: "hoge" }});
 
-    let button = ReactTestUtils.findRenderedDOMComponentWithTag(component, "button");
+    let button = ReactTestUtils.findRenderedDOMComponentWithTag(todo, "button");
     ReactTestUtils.Simulate.click(button);
+
+    let instance = todo.getWrappedInstance();
+    expect(instance.state.text).toEqual("hoge");
   });
 });
