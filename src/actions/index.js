@@ -1,4 +1,5 @@
-import db from "db.js";
+require("babel-polyfill");
+
 import {
   ACTION_ADD_TODO,
   ACTION_ADD_TODO_COMPLETE,
@@ -6,40 +7,21 @@ import {
   ACTION_RECV
 } from "../constants";
 
-require("babel-polyfill");
-
-const DB_NAME = "redux-todo";
-
-function openDB() {
-  return new Promise((resolve) => {
-    db.open({
-      server: DB_NAME,
-      version: 1,
-      schema: {
-        todo: {
-          key: { keyPath: "id", autoIncrement: true },
-          indexes: {
-            body: { unique: true }
-          }
-        }
-      }
-    }).then((server) => {
-      resolve(server);
-    });
-  });
-}
+import ServiceDB from "../service/servicedb";
 
 function createTodo(text) {
+  if (!text) {
+    throw new Error("invalid parameter: text is empty");
+  }
+
   return (dispatch) => {
     dispatch({ type: ACTION_ADD_TODO });
-    return new Promise(() => {
-      (async () => {
-        let server = await openDB();
-        let entries = await server.todo.add({ body: text });
-        setTimeout(() => {
-          dispatch({ type: ACTION_ADD_TODO_COMPLETE, todos: entries });
-        }, 1000);
-      })();
+    return new Promise((resolve) => {
+      ServiceDB.openDB().then((server) => {
+        server.todo.add({ body: text }).then((entries) => {
+          resolve(dispatch({ type: ACTION_ADD_TODO_COMPLETE, todos: entries }));
+        });
+      });
     });
   };
 }
@@ -48,13 +30,13 @@ function getTodos() {
   return (dispatch) => {
     dispatch({ type: ACTION_FETCH });
     return new Promise(() => {
-      (async () => {
-        let server = await openDB();
-        let entries = await server.todo.query().all().execute();
-        setTimeout(() => {
-          dispatch({ type: ACTION_RECV, todos: entries });
-        }, 2000);
-      })();
+      ServiceDB.openDB().then((server) => {
+        server.todo.query().all().execute().then((entries) => {
+          setTimeout(() => {
+            dispatch({ type: ACTION_RECV, todos: entries });
+          }, 2000);
+        });
+      });
     });
   };
 }
