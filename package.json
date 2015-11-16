@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "build": "browserify -d src/app.jsx --extension .jsx -o public/bundle.js",
-    "watch:build": "watchify src/app.jsx --extension=.jsx -o public/bundle.js -v",
+    "build:watch": "watchify src/app.jsx --extension=.jsx -o public/bundle.js -v",
     "test": "mocha",
+    "test:coverage": "node_modules/isparta/bin/isparta cover --include-all-sources --report html node_modules/mocha/bin/_mocha --",
     "lint": "eslint src/**/*.js*"
   },
   "dependencies": {
@@ -28,10 +29,11 @@
     "babel-preset-stage-3": "^6.1.2",
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
+    "chai": "^3.4.1",
     "envify": "^3.4.0",
     "eslint": "^1.9.0",
     "eslint-plugin-react": "^3.8.0",
-    "expect": "^1.12.2",
+    "isparta": "^4.0.0",
     "jsdom": "^7.0.2",
     "mocha": "^2.3.3",
     "react-addons-test-utils": "^0.14.2",

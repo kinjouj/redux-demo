@@ -9,7 +9,8 @@ import * as TodoActions from "../actions";
 class App extends Component {
 
   componentDidMount() {
-    this.props.dispatch(TodoActions.fetchData());
+    this.props.fetchData();
+    console.log(this.props);
   }
 
   render() {
@@ -22,7 +23,7 @@ class App extends Component {
   }
 
   addTodo(text) {
-    this.props.dispatch(TodoActions.addTodo(text));
+    this.props.addTodo(text);
   }
 }
 
@@ -30,4 +31,4 @@ function mapStateToProps(state) {
   return state;
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, TodoActions)(App);

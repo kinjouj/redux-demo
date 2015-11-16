@@ -1,4 +1,4 @@
-import expect from "expect";
+import { expect } from "chai";
 import React from "react";
 import ReactDOM from "react-dom";
 import ReactTestUtils from "react-addons-test-utils";
@@ -11,7 +11,7 @@ describe("TodoInput", () => {
     let store = createStore(() => { return {} });
 
     let onAddTodo = (text) => {
-      expect(text).toEqual("hoge");
+      expect(text).to.be.eq("hoge");
       done();
     };
 
@@ -30,6 +30,6 @@ describe("TodoInput", () => {
     ReactTestUtils.Simulate.click(button);
 
     let instance = todo.getWrappedInstance();
-    expect(instance.state.text).toEqual("hoge");
+    expect(instance.state.text).to.be.eq("hoge");
   });
 });

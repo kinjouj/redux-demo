@@ -1,4 +1,4 @@
-import expect from "expect";
+import { expect } from "chai";
 import React from "react";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
@@ -9,10 +9,7 @@ describe("TodoList", () => {
     var TodoList = require("../../src/components/TodoList").default;
     let store = createStore(() => { return {} });
 
-    let todos = [
-      { id: 1, body: "A" }
-    ];
-
+    let todos = [ { id: 1, body: "A" } ];
     let component = ReactTestUtils.renderIntoDocument(
       <Provider store={store}>
         <TodoList todos={todos} />
@@ -28,6 +25,6 @@ describe("TodoList", () => {
       todoList,
       "todo"
     );
-    expect(item).toExist();
+    expect(item).to.be.exist;
   });
 });

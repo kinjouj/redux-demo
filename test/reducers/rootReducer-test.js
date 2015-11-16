@@ -1,4 +1,4 @@
-import expect from "expect";
+import { expect } from "chai";
 import rootReducer from "../../src/reducers";
 import {
   ACTION_ADD_TODO,
@@ -12,13 +12,13 @@ describe("rootReducer", () => {
   it("default", () => {
     expect(
       rootReducer(undefined, {})
-    ).toEqual({ isFetching: false, todos: [] });
+    ).to.be.deep.eq({ isFetching: false, todos: [] });
   });
 
   it("ACTION_ADD_TODO", () => {
     expect(
       rootReducer(null, { type: ACTION_ADD_TODO })
-    ).toEqual({ isFetching: true });
+    ).to.be.deep.eq({ isFetching: true });
   });
 
   it("ACTION_ADD_TODO_COMPLETE", () => {
@@ -29,7 +29,7 @@ describe("rootReducer", () => {
           type: ACTION_ADD_TODO_COMPLETE
         }
       )
-    ).toEqual({ isFetching: false, todos: [] });
+    ).to.be.deep.eq({ isFetching: false, todos: [] });
 
     expect(
       rootReducer(
@@ -44,7 +44,7 @@ describe("rootReducer", () => {
           ]
         }
       )
-    ).toEqual({
+    ).to.be.deep.eq({
       isFetching: false,
       todos: [ { id: 1, body: "hoge" } ]
     });
@@ -53,13 +53,13 @@ describe("rootReducer", () => {
   it("ACTION_FETCH", () => {
     expect(
       rootReducer(undefined, { type: ACTION_FETCH })
-    ).toEqual({ isFetching: true, todos: [] });
+    ).to.be.deep.eq({ isFetching: true, todos: [] });
   });
 
   it("ACTION_RECV", () => {
     expect(
       rootReducer(undefined, { type: ACTION_RECV })
-    ).toEqual({ isFetching: false, todos: [] });
+    ).to.be.deep.eq({ isFetching: false, todos: [] });
 
     expect(
       rootReducer(
@@ -74,7 +74,7 @@ describe("rootReducer", () => {
           ]
         }
       )
-    ).toEqual({
+    ).to.be.deep.eq({
       isFetching: false,
       todos: [
         {

@@ -1,4 +1,4 @@
-import expect from "expect";
+import { expect } from "chai";
 import React from "react";
 import ReactDOM from "react-dom";
 import ReactTestUtils from "react-addons-test-utils";
@@ -11,7 +11,6 @@ describe("TodoItem", () => {
     let store = createStore(() => { return {} });
 
     let todo = { id: 1, body: "hoge" };
-
     let component = ReactTestUtils.renderIntoDocument(
       <Provider store={store}>
         <TodoItem todo={todo} />
@@ -19,10 +18,10 @@ describe("TodoItem", () => {
     );
 
     let el = ReactTestUtils.findRenderedDOMComponentWithClass(component, "todo");
-    expect(el).toExist();
+    expect(el).to.be.exist;
 
     let body = ReactTestUtils.findRenderedDOMComponentWithClass(component, "todo-body");
-    expect(body).toExist();
-    expect(ReactDOM.findDOMNode(body).innerHTML).toEqual("hoge");
+    expect(body).to.be.exist;
+    expect(ReactDOM.findDOMNode(body).innerHTML).to.be.eq("hoge");
   });
 });

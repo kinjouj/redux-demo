@@ -6,7 +6,10 @@ import { connect } from "react-redux";
 class TodoItem extends Component {
 
   static propTypes = {
-    todo: PropTypes.object.isRequired
+    todo: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      body: PropTypes.string.isRequired
+    })
   }
 
   render() {
@@ -15,7 +18,6 @@ class TodoItem extends Component {
     return (
       <div className="todo">
         <span className="todo-body">{todo.body}</span>
-        <a onClick={() => this.handleDeleteClick(this)}>削除</a>
       </div>
     );
   }

@@ -16,11 +16,14 @@ function createTodo(text) {
 
   return (dispatch) => {
     dispatch({ type: ACTION_ADD_TODO });
-    return new Promise((resolve) => {
-      ServiceDB.openDB().then((server) => {
-        server.todo.add({ body: text }).then((entries) => {
+    return new Promise(resolve => {
+      ServiceDB.addTodo(text).then(entries => {
+        setTimeout(() => {
           resolve(dispatch({ type: ACTION_ADD_TODO_COMPLETE, todos: entries }));
-        });
+        }, 3000);
+      }).catch(error => {
+        console.error(error);
+        resolve(dispatch({ type: ACTION_ADD_TODO_COMPLETE, todos: [] }));
       });
     });
   };
@@ -29,13 +32,9 @@ function createTodo(text) {
 function getTodos() {
   return (dispatch) => {
     dispatch({ type: ACTION_FETCH });
-    return new Promise(() => {
-      ServiceDB.openDB().then((server) => {
-        server.todo.query().all().execute().then((entries) => {
-          setTimeout(() => {
-            dispatch({ type: ACTION_RECV, todos: entries });
-          }, 2000);
-        });
+    return new Promise(resolve => {
+      ServiceDB.findAll().then(entries => {
+        resolve(dispatch({ type: ACTION_RECV, todos: entries }));
       });
     });
   };
@@ -43,7 +42,9 @@ function getTodos() {
 
 export function addTodo(text) {
   return (dispatch, getState) => {
-    if (!getState().isFetching) {
+    let state = getState() || {};
+
+    if (!state.isFetching) {
       return dispatch(createTodo(text));
     }
   };
@@ -51,7 +52,9 @@ export function addTodo(text) {
 
 export function fetchData() {
   return (dispatch, getState) => {
-    if (!getState().isFetching) {
+    let state = getState() || {};
+
+    if (!state.isFetching) {
       return dispatch(getTodos());
     }
   };

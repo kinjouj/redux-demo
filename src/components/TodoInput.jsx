@@ -12,8 +12,8 @@ class TodoInput extends Component {
 
   constructor(props) {
     super(props);
-    this.linkState = LinkedStateMixin.linkState;
     this.state = {};
+    this.linkState = LinkedStateMixin.linkState;
   }
 
   render() {
@@ -31,7 +31,7 @@ class TodoInput extends Component {
 }
 
 export default connect(
-  (state) => {
+  state => {
     return state;
   },
   null,
