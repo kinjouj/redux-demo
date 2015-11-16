@@ -10,7 +10,6 @@ class App extends Component {
 
   componentDidMount() {
     this.props.fetchData();
-    console.log(this.props);
   }
 
   render() {

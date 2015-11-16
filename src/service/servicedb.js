@@ -1,50 +1,45 @@
-import db from "db.js";
-
+import IDBStore from "idb-wrapper-promisify";
 import { DB_NAME } from "../constants";
 
 export default class ServiceDB {
 
-  static openDB() {
-    return new Promise(resolve => {
-      db.open({
-        server: DB_NAME,
-        version: 1,
-        schema: {
-          todo: {
-            key: { keyPath: "id", autoIncrement: true },
-            indexes: {
-              body: { unique: true }
-            }
-          }
-        }
-      }).then(server => {
-        resolve(server);
-      });
-    });
-  }
-
   static addTodo(text) {
     return new Promise((resolve, reject) => {
-      ServiceDB.openDB().then(server => {
-        server.todo.add({ body: text }).then(entries => {
-          resolve(entries);
-        }).catch(error => {
-          reject(error);
+      var store = ServiceDB.getStore();
+      store.ready.then(
+        () => store.put({ body: text })
+      ).then((id) => {
+        store.get(id).then((entry) => {
+          resolve([entry]);
         });
+      }).catch(error => {
+        console.error(error.target.error);
+        reject(error);
       });
     });
   }
 
   static findAll() {
     return new Promise(resolve => {
-      ServiceDB.openDB().then(server => {
-        server.todo.query().all().execute().then(entries => {
-          resolve(entries);
-        }).catch(error => {
-          console.error(error);
-          resolve([]);
-        });
+      var store = ServiceDB.getStore();
+      store.ready.then(
+        () => store.getAll()
+      ).then((entries) => {
+        resolve(entries);
+      }).catch(error => {
+        console.error(error.target.error);
+        resolve([]);
       });
+    });
+  }
+
+  static getStore() {
+    return new IDBStore({
+      storeName: DB_NAME,
+      version: 1,
+      indexes: [
+        { name: "body", unique: true }
+      ]
     });
   }
 }

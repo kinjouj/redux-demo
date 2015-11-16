@@ -9,7 +9,7 @@
     "lint": "eslint src/**/*.js*"
   },
   "dependencies": {
-    "db.js": "^0.10.2",
+    "idb-wrapper-promisify": "^2.1.1",
     "react": "^0.14.2",
     "react-addons-linked-state-mixin": "^0.14.2",
     "react-dom": "^0.14.2",
