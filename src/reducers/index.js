@@ -11,24 +11,21 @@ function rootReducer(state = { isFetching: false, todos: [] }, action) {
       return Object.assign({}, state, { isFetching: true });
 
     case ACTION_ADD_TODO_COMPLETE:
-      let { "todos": stateTodos = [] } = state;
-      let { "todos": actionTodos = [] } = action;
+      let { "todos": addStateTodos = [] } = state;
+      let { "todos": addActionTodos = [] } = action;
+      const addedTodos = [ ...addStateTodos, ...addActionTodos ];
 
-      return Object.assign(
-        {},
-        state,
-        {
-          isFetching: false,
-          todos: [ ...stateTodos, ...actionTodos ]
-        }
-      );
+      return Object.assign({}, state, { isFetching: false, todos: addedTodos });
 
     case ACTION_FETCH:
       return Object.assign({}, state, { isFetching: true });
 
     case ACTION_RECV:
-      let { todos = [] } = action;
-      return Object.assign({}, state, { isFetching: false, todos: todos });
+      let { "todos": recvActionTodos = [] } = action;
+      let { "todos": recvStateTodos = [] } = state;
+      const recvTodos = [ ...recvStateTodos, ...recvActionTodos ];
+
+      return Object.assign({}, state, { isFetching: false, todos: recvTodos });
 
     default:
       return state;

@@ -32,7 +32,7 @@ class TodoInput extends Component {
 
 export default connect(
   state => {
-    return state;
+    return {};
   },
   null,
   null,

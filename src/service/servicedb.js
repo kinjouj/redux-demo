@@ -8,27 +8,25 @@ export default class ServiceDB {
       var store = ServiceDB.getStore();
       store.ready.then(
         () => store.put({ body: text })
-      ).then((id) => {
-        store.get(id).then((entry) => {
+      ).then(id => {
+        store.get(id).then(entry => {
           resolve([entry]);
         });
       }).catch(error => {
-        console.error(error.target.error);
         reject(error);
       });
     });
   }
 
   static findAll() {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       var store = ServiceDB.getStore();
       store.ready.then(
         () => store.getAll()
-      ).then((entries) => {
+      ).then(entries => {
         resolve(entries);
       }).catch(error => {
-        console.error(error.target.error);
-        resolve([]);
+        reject(error);
       });
     });
   }

@@ -36,11 +36,12 @@ function getStore(state, expectedActions, done) {
 }
 
 describe("actions", () => {
+
   it("addTodo", (done) => {
-    let stub = sinon.stub(ServiceDB, "addTodo", function(text) {
+    let stub = sinon.stub(ServiceDB, "addTodo", text => {
       expect(text).to.be.eq("hoge");
 
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         resolve([{ body: text }]);
       });
     });
@@ -58,8 +59,75 @@ describe("actions", () => {
       }
     );
     store.dispatch(actions.addTodo("hoge"));
+
+    expect(
+      () => store.dispatch(actions.addTodo())
+    ).to.throw("invalid parameter: text is empty");
   });
 
-  it("addTodo2", () => {
+  it("addTodo: if ServiceDB.addTodo error", (done) => {
+    let stub = sinon.stub(ServiceDB, "addTodo", () => {
+      return new Promise(() => {
+        throw new Error("test error");
+      });
+    });
+    ServiceDB.addTodo = stub;
+
+    let store = getStore(
+      null,
+      [
+        { type: "add_todo" },
+        { type: "add_todo_complete", todos: [] }
+      ],
+      (e) => {
+        stub.restore();
+        done(e);
+      }
+    );
+    store.dispatch(actions.addTodo("hoge"));
+  });
+
+  it("fetchData", (done) => {
+    let stub = sinon.stub(ServiceDB, "findAll", function() {
+      return new Promise(resolve => {
+        resolve([ { body: "hoge" }]);
+      });
+    });
+    ServiceDB.findAll = stub;
+
+    let store = getStore(
+      null,
+      [
+        { type: "fetch" },
+        { type: "recv", todos: [ { body: "hoge" } ] }
+      ],
+      (e) => {
+        stub.restore();
+        done(e);
+      }
+    );
+    store.dispatch(actions.fetchData());
+  });
+
+  it("fetchData: if ServiceDB.findAll error", (done) => {
+    let stub = sinon.stub(ServiceDB, "findAll", function() {
+      return new Promise(() => {
+        throw new Error("test error")
+      });
+    });
+    ServiceDB.findAll = stub;
+
+    let store = getStore(
+      null,
+      [
+        { type: "fetch" },
+        { type: "recv", todos: [] }
+      ],
+      (e) => {
+        stub.restore();
+        done(e);
+      }
+    );
+    store.dispatch(actions.fetchData());
   });
 });

@@ -4,7 +4,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import TodoInput from "./TodoInput";
 import TodoList from "./TodoList";
-import * as TodoActions from "../actions";
+import { fetchData, addTodo } from "../actions";
+import ServiceDB from "../service/servicedb";
 
 class App extends Component {
 
@@ -27,7 +28,7 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  return state;
+  return { todos: state.todos };
 }
 
-export default connect(mapStateToProps, TodoActions)(App);
+export default connect(mapStateToProps, { fetchData, addTodo })(App);

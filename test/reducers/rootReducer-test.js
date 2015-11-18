@@ -12,76 +12,54 @@ describe("rootReducer", () => {
   it("default", () => {
     expect(
       rootReducer(undefined, {})
-    ).to.be.deep.eq({ isFetching: false, todos: [] });
+    ).to.be.eql({ isFetching: false, todos: [] });
   });
 
   it("ACTION_ADD_TODO", () => {
     expect(
       rootReducer(null, { type: ACTION_ADD_TODO })
-    ).to.be.deep.eq({ isFetching: true });
+    ).to.be.eql({ isFetching: true });
   });
 
   it("ACTION_ADD_TODO_COMPLETE", () => {
     expect(
-      rootReducer(
-        undefined,
-        {
-          type: ACTION_ADD_TODO_COMPLETE
-        }
-      )
-    ).to.be.deep.eq({ isFetching: false, todos: [] });
+      rootReducer(undefined, { type: ACTION_ADD_TODO_COMPLETE })
+    ).to.be.eql({ isFetching: false, todos: [] });
 
     expect(
       rootReducer(
         undefined,
-        {
-          type: ACTION_ADD_TODO_COMPLETE,
-          todos: [
-            {
-              id: 1,
-              body: "hoge"
-            }
-          ]
-        }
+        { type: ACTION_ADD_TODO_COMPLETE, todos: [ { id: 1, body: "hoge" } ] }
       )
-    ).to.be.deep.eq({
-      isFetching: false,
-      todos: [ { id: 1, body: "hoge" } ]
-    });
+    ).to.be.eql({ isFetching: false, todos: [ { id: 1, body: "hoge" } ] });
   });
 
   it("ACTION_FETCH", () => {
     expect(
       rootReducer(undefined, { type: ACTION_FETCH })
-    ).to.be.deep.eq({ isFetching: true, todos: [] });
+    ).to.be.eql({ isFetching: true, todos: [] });
   });
 
   it("ACTION_RECV", () => {
     expect(
       rootReducer(undefined, { type: ACTION_RECV })
-    ).to.be.deep.eq({ isFetching: false, todos: [] });
+    ).to.be.eql({ isFetching: false, todos: [] });
 
     expect(
       rootReducer(
         undefined,
-        {
-          type: ACTION_RECV,
-          todos: [
-            {
-              id: 1,
-              body: "hoge"
-            }
-          ]
-        }
+        { type: ACTION_RECV, todos: [ { id: 1, body: "hoge" } ] }
       )
-    ).to.be.deep.eq({
+    ).to.be.eql({ isFetching: false, todos: [ { id: 1, body: "hoge" } ] });
+
+    expect(
+      rootReducer(
+        { todos: [ { id: 1, body: "hoge"} ] },
+        { type: ACTION_RECV, todos: [ { id: 2, body: "fuga" } ] }
+      )
+    ).to.be.eql({
       isFetching: false,
-      todos: [
-        {
-          id: 1,
-          body: "hoge"
-        }
-      ]
+      todos: [ { id: 1, body: "hoge" }, { id: 2, body: "fuga" } ]
     });
   });
 });

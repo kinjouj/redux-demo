@@ -21,7 +21,10 @@ describe("TodoInput", () => {
       </Provider>
     );
 
-    let todo = ReactTestUtils.findRenderedComponentWithType(component, TodoInput);
+    let todo = ReactTestUtils.findRenderedComponentWithType(
+      component,
+      TodoInput
+    );
 
     let input = ReactTestUtils.findRenderedDOMComponentWithTag(todo, "input");
     ReactTestUtils.Simulate.change(input, { target: { value: "hoge" }});
