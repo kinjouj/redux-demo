@@ -1,0 +1,11 @@
+.todo {
+  margin: 10px 0px;
+}
+
+.todo-body {
+  font-size: 14px;
+}
+
+.todo > a {
+  margin-left: 20px;
+}

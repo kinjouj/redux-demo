@@ -1,8 +1,7 @@
 import { expect } from "chai";
-import sinon from "sinon";
+import nock from "nock";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import ServiceDB from "../../src/service/servicedb";
 import * as actions from "../../src/actions";
 
 function getStore(state, expectedActions, done) {
@@ -37,26 +36,26 @@ function getStore(state, expectedActions, done) {
 
 describe("actions", () => {
 
-  it("addTodo", (done) => {
-    let stub = sinon.stub(ServiceDB, "addTodo", text => {
-      expect(text).to.be.eq("hoge");
+  afterEach(() => {
+    nock.cleanAll()
+  });
 
-      return new Promise(resolve => {
-        resolve([{ body: text }]);
-      });
-    });
-    ServiceDB.addTodo = stub;
+  it("addTodo", (done) => {
+    nock("https://kinjouj-test.appspot.com")
+        .post("/_ah/api/todo/v1/push")
+        .query({ body: "hoge" })
+        .reply(200, {
+          key: { id: 1},
+          properties: { body: "hoge" }
+        });
 
     let store = getStore(
       null,
       [
         { type: "add_todo" },
-        { type: "add_todo_complete", todos: [ { body: "hoge" } ] }
+        { type: "add_todo_complete", todos: [ { id: 1, body: "hoge" } ] }
       ],
-      (e) => {
-        stub.restore();
-        done(e);
-      }
+      done
     );
     store.dispatch(actions.addTodo("hoge"));
 
@@ -66,12 +65,10 @@ describe("actions", () => {
   });
 
   it("addTodo: if ServiceDB.addTodo error", (done) => {
-    let stub = sinon.stub(ServiceDB, "addTodo", () => {
-      return new Promise(() => {
-        throw new Error("test error");
-      });
-    });
-    ServiceDB.addTodo = stub;
+    nock("https://kinjouj-test.appspot.com")
+        .post("/_ah/api/todo/v1/push")
+        .query({ body: "hoge" })
+        .reply(500);
 
     let store = getStore(
       null,
@@ -79,43 +76,38 @@ describe("actions", () => {
         { type: "add_todo" },
         { type: "add_todo_complete", todos: [] }
       ],
-      (e) => {
-        stub.restore();
-        done(e);
-      }
+      done
     );
     store.dispatch(actions.addTodo("hoge"));
   });
 
   it("fetchData", (done) => {
-    let stub = sinon.stub(ServiceDB, "findAll", function() {
-      return new Promise(resolve => {
-        resolve([ { body: "hoge" }]);
-      });
-    });
-    ServiceDB.findAll = stub;
+    nock("https://kinjouj-test.appspot.com")
+        .get("/_ah/api/todo/v1/fetch")
+        .reply(200, {
+          items: [
+            {
+              key: { id: 1 },
+              properties: { body: "hoge" }
+            }
+          ]
+        });
 
     let store = getStore(
       null,
       [
         { type: "fetch" },
-        { type: "recv", todos: [ { body: "hoge" } ] }
+        { type: "recv", todos: [ { id: 1, body: "hoge" } ] }
       ],
-      (e) => {
-        stub.restore();
-        done(e);
-      }
+      done
     );
     store.dispatch(actions.fetchData());
   });
 
-  it("fetchData: if ServiceDB.findAll error", (done) => {
-    let stub = sinon.stub(ServiceDB, "findAll", function() {
-      return new Promise(() => {
-        throw new Error("test error")
-      });
-    });
-    ServiceDB.findAll = stub;
+  it("fetchData: if response error", (done) => {
+    nock("https://kinjouj-test.appspot.com")
+        .get("/_ah/api/todo/v1/fetch")
+        .reply(500);
 
     let store = getStore(
       null,
@@ -123,10 +115,7 @@ describe("actions", () => {
         { type: "fetch" },
         { type: "recv", todos: [] }
       ],
-      (e) => {
-        stub.restore();
-        done(e);
-      }
+      done
     );
     store.dispatch(actions.fetchData());
   });
