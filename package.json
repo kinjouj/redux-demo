@@ -2,14 +2,14 @@
   "name": "redux-example-echo",
   "version": "1.0.0",
   "scripts": {
-    "build": "browserify -d src/app.jsx --extension .jsx -o public/bundle.js",
-    "build:watch": "watchify src/app.jsx --extension=.jsx -o public/bundle.js -v",
+    "build": "browserify -d src/app.jsx --extension .jsx -o server/src/main/webapp/bundle.js",
+    "build:watch": "watchify src/app.jsx --extension=.jsx -o server/src/main/webapp/bundle.js -v",
     "test": "mocha",
-    "test:coverage": "node_modules/isparta/bin/isparta cover -v --include-all-sources -i '**/*.js' -i '**/*.jsx' -x 'public/*' --report html node_modules/mocha/bin/_mocha --",
+    "test:coverage": "node_modules/isparta/bin/isparta cover -v --include-all-sources -i '**/*.js' -i '**/*.jsx' -x 'public/*' -x 'server/**' --report html node_modules/mocha/bin/_mocha --",
     "lint": "eslint src/**/*.js*"
   },
   "dependencies": {
-    "idb-wrapper-promisify": "^2.1.1",
+    "isomorphic-fetch": "^2.2.0",
     "react": "^0.14.2",
     "react-addons-linked-state-mixin": "^0.14.2",
     "react-dom": "^0.14.2",
@@ -36,8 +36,8 @@
     "isparta": "^4.0.0",
     "jsdom": "^7.0.2",
     "mocha": "^2.3.3",
-    "react-addons-test-utils": "^0.14.2",
-    "sinon": "^1.17.2"
+    "nock": "^3.1.1",
+    "react-addons-test-utils": "^0.14.2"
   },
   "browserify": {
     "transform": [
